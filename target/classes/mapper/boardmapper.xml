@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardmapper">
+
+	<resultMap type="board" id="BoardResult">
+		<result property="boardId" column="board_id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="crtDate" column="crt_date"/>
+		<result property="upDate" column="up_date"/>
+		<result property="name" column="cus_name"/>
+		<result property="cusId" column="cus_id"/>
+	</resultMap>
+	
+	
+<!-- 	cusid 넣어줄 것인지 고려해야 함. -->
+	<insert id="insert" parameterType="board" >
+		INSERT INTO BOARD(
+		board_id,
+		title,
+		content,
+		cus_name,
+		cus_id
+		)
+		VALUES (
+		#{boardID}, #{title},#{content},#{cus_name},#{cus_id})       
+		<selectKey keyProperty="boardId" resultType="int">
+		select last_insert_id()
+		</selectKey>
+	</insert>
+	
+<!-- 	글 가져오기  -->
+	<select id="select" parameterType="Integer" resultType="board">
+		SELECT BOARD_ID,TITLE,CONTENT,CRT_DATE FROM BOARD WHERE BOARD_ID = #{board_id}
+	</select>
+	
+<!-- 	게시판 전체 글 가져오기 수정 날짜 null 체크 후 처리 필요 -->
+	<select id="selectAll" resultMap="BoardResult">
+		SELECT * FROM BOARD ORDER BY BOARD_ID
+	</select>
+	
+	<update id="update" parameterType="board">
+		UPDATE BOARD SET TITLE=#{TITLE}, CONTENT=#{content}, UP_DATE=#{up_date} WHERE BOARD_ID = #{board_id}
+	</update>
+	
+	<delete id="delete" parameterType="Integer" >
+		DELETE FROM BOARD WHERE BOARD_ID = #{board_id}
+	</delete>
+
+<!-- 
+	<select id="selectAll" resultType="member">
+		SELECT * FROM  ORDER BY MEMBER_ID
+	</select>
+	<select id="selectbyemail" parameterType="String" resultType="member">
+		SELECT * FROM MEMBER WHERE EMAIL = #{email}
+	</select>
+	
+	<select id="select" parameterType="Integer" resultType="member">
+		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	<insert id="insert" parameterType="member" >
+		INSERT INTO BOARD
+		VALUES (SEQ_MEMBER.NEXTVAL, #{email},#{pw},#{name},#{address},#{phone},#{birth},0, 0, #{member_account})       
+	</insert>
+	 -->
+	
+<!-- 	
+
+	
+	<update id="update" parameterType="member">
+		UPDATE MEMBER SET PW=#{pw}, PHONE=#{phone}, ADDRESS=#{address}, SCORE=#{score}, LIKES=#{likes}  WHERE MEMBER_ID = #{member_id}
+	</update>
+	
+	<update id="updateScore" parameterType="member">
+		UPDATE MEMBER SET SCORE=#{score}  WHERE MEMBER_ID = #{member_id}
+	</update>
+	
+	<update id="updateLikes" parameterType="member">
+		UPDATE MEMBER SET LIKES=#{likes}  WHERE MEMBER_ID = #{member_id}
+	</update>
+	
+	<select id="selectAdmin" parameterType="admin" resultType="String">
+		SELECT * FROM ADMIN_DB WHERE ADMIN_CODE='${admin_code}'
+	</select> -->
+	
+</mapper>

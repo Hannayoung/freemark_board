@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+<context:component-scan base-package="com.aceproject.free"/>
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	<tx:annotation-driven transaction-manager="txManager"/> 
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+<!-- 	<bean id="autowiredClass1" class="class.AutowiredClass"> 
+	<qualifier value="autowiredClass1" /></bean> 
+	<bean id="autowiredClass2" class="class.AutowiredClass"></bean> -->
+
+
+	 <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath"><value>/WEB-INF/freemarker/</value></property>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="default_encoding">utf-8</prop>
+                <prop key="template_update_delay">1</prop>
+                <prop key="number_format">#.#######</prop>
+                <prop key="date_format">yyyy년 MM월 dd일</prop>
+                <prop key="time_format">a hh시 mm분 ss초</prop>
+                <prop key="datetime_format">yyyy년 MM월 dd일 hh시 mm분 a</prop>
+            </props>
+        </property>
+        <property name="freemarkerVariables">
+            <props>					
+				<prop key="HOME">http://localhost.home.com</prop>
+            </props>
+        </property>
+    </bean>
+
+	
+    <bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape"/>
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+	    <property name="order" value="2" />
+        <property name="cache"><value>true</value></property>
+        <property name="contentType"><value>text/html; charset=utf-8</value></property>
+        <property name="exposeSpringMacroHelpers"><value>true</value></property>
+	</bean>
+
+
+<!--  	
+  <bean id="viewResolver" 
+ 	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+ 		  <property name="contentType" value="text/html; charset=UTF-8" />
+ 		<property name="prefix" value="/view/"/>
+ 		<property name="suffix" value=".jsp"/>
+ 		<property name="order" value="0"/>
+ 	</bean> 
+ -->
+ 	
+ 	<!-- 다국어 처리 -->
+ 	<bean id="messageSource" 
+ 	class="org.springframework.context.support.ResourceBundleMessageSource">
+ 		<property name="basenames">
+ 			<list>
+ 				<value>messages/messages</value>
+ 			</list>
+ 		</property>
+ 	</bean>	
+ 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+ 	</bean>
+ 	<mvc:interceptors>
+ 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+ 			<property name="paramName" value="lang"/>
+ 		</bean>
+ 	</mvc:interceptors>
+ 	
+    
+    <!-- 1. Database Setting -->
+ 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+ 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+ 		<property name="url" value="jdbc:mysql://127.0.0.1:3306/board"/>
+ 		<property name="username" value="root"/>
+ 		<property name="password" value="root"/> 
+
+ 	</bean>
+
+ 	<!-- 2. Transaction Setting -->
+ 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+ 		<property name="dataSource" ref="dataSource"/>
+ 	</bean>
+ 	
+ 	<!-- 3. MyBatis Setting -->
+ 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+ 		<property name="dataSource" ref="dataSource"/>
+ 		<property name="configLocation" value="classpath:mybatis.xml"/>
+ 		<property name="mapperLocations" value="classpath*:/mapper/*.xml"/>
+ 	</bean>
+ 	<!-- 4. Spring Mybatis Connect -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+ 		<constructor-arg ref="sqlSessionFactory"/>
+ 	</bean> 
+ <!-- 	
+ 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+ 		<property name="basePackage" value="com.aceproject.free.dao.mybatis"/>
+ 	</bean>
+  -->
+ <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+ 		<property name="basePackage" value="mapper"/>
+ 	</bean> 
+  
+  
+  	<bean id="exeptionResolver" 
+ 	class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+ 		<property name="exceptionMappings">
+ 			<props>
+ 				<prop key="org.springframework.dao.DuplicateKeyException">
+ 					error
+ 				</prop>
+ 			</props>
+ 		</property>
+ 	</bean>
+<!--  	<bean id="successfulBiddingCheckThread" class="com.bla.vo.SuccessfulBiddingCheckThread" init-method="init"/> -->
+
+
+
+
+</beans>
