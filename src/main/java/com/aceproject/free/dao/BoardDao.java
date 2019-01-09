@@ -2,13 +2,17 @@ package com.aceproject.free.dao;
 
 import java.util.List;
 
-import com.aceproject.free.model.BoardVo;
+import com.aceproject.free.model.ArticleVo;
 
-public interface BoardDao  {
+public interface BoardDao {
 
-	public void insert(BoardVo boardVo) ;
-	public void update(BoardVo boardVo) ;
-	public void delete(int boardId) ;
-	public BoardVo select(int boardId) ;
-	public List<BoardVo> select() ;
+	void insert(ArticleVo articleVo);
+
+	void update(ArticleVo articleVo);
+
+	void delete(int articleId);
+
+	ArticleVo select(int articleId);
+
+	List<ArticleVo> select();
 }

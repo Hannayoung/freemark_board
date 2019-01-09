@@ -3,70 +3,29 @@
 <mapper namespace="cusmapper">
 
 	<resultMap type="customer" id="CusResult">
-		<result property="cusId" column="cus_id"/>
 		<result property="email" column="cus_email"/>
 		<result property="pw" column="cus_pw"/>
-		<result property="name" column="cus_name"/>
+		<result property="cusName" column="cus_name"/>
 	</resultMap>
 	
 	
 	<insert id="insert" parameterType="customer" >
 		INSERT INTO CUSTOMER(
-		cus_id,
-		cus_email,
-		cus_pw,
-		cus_name
+			cus_email,
+			cus_pw,
+			cus_name
 		)
 		VALUES (
-		#{cus_email}, #{cus_pw},#{cus_name})       
-		<selectKey keyProperty="cusId" resultType="int">
-		select last_insert_id()
-		</selectKey>
+			#{email}, 
+			#{pw},
+			#{cusName}
+		)       
 	</insert>
 
-	<select id="select" parameterType="Integer" resultType="customer">
-		SELECT * FROM CUSTOMER WHERE CUS_ID = #{cus_id}
+	<select id="select" parameterType="String" resultMap="CusResult">
+		SELECT * 
+		FROM CUSTOMER 
+		WHERE CUS_EMAIL = #{email}
 	</select>
-
-	<!--  글쓴이 아이디와 이름 가져오 -->
-	<select id="selectBoardList" parameterType="Integer" resultType="board">
-		SELECT  CUS_NAME, CUS_ID FROM CUSTOMER WHERE CUS_ID = #{cus_id}
-	</select>
-<!-- 
-	<select id="selectAll" resultType="member">
-		SELECT * FROM  ORDER BY MEMBER_ID
-	</select>
-	<select id="selectbyemail" parameterType="String" resultType="member">
-		SELECT * FROM MEMBER WHERE EMAIL = #{email}
-	</select>
-	
-	<select id="select" parameterType="Integer" resultType="member">
-		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id}
-	</select>
-	
-	<insert id="insert" parameterType="member" >
-		INSERT INTO BOARD
-		VALUES (SEQ_MEMBER.NEXTVAL, #{email},#{pw},#{name},#{address},#{phone},#{birth},0, 0, #{member_account})       
-	</insert>
-	 -->
-	
-<!-- 	
-
-	
-	<update id="update" parameterType="member">
-		UPDATE MEMBER SET PW=#{pw}, PHONE=#{phone}, ADDRESS=#{address}, SCORE=#{score}, LIKES=#{likes}  WHERE MEMBER_ID = #{member_id}
-	</update>
-	
-	<update id="updateScore" parameterType="member">
-		UPDATE MEMBER SET SCORE=#{score}  WHERE MEMBER_ID = #{member_id}
-	</update>
-	
-	<update id="updateLikes" parameterType="member">
-		UPDATE MEMBER SET LIKES=#{likes}  WHERE MEMBER_ID = #{member_id}
-	</update>
-	
-	<select id="selectAdmin" parameterType="admin" resultType="String">
-		SELECT * FROM ADMIN_DB WHERE ADMIN_CODE='${admin_code}'
-	</select> -->
 	
 </mapper>

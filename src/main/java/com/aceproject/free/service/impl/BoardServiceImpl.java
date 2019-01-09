@@ -5,42 +5,39 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.aceproject.free.dao.impl.BoardDaoImpl;
-import com.aceproject.free.model.BoardVo;
+import com.aceproject.free.dao.BoardDao;
+import com.aceproject.free.model.ArticleVo;
 import com.aceproject.free.service.BoardService;
 
-
 @Service("boardService")
-public class BoardServiceImpl implements BoardService{
+public class BoardServiceImpl implements BoardService {
 
-	@Autowired (required=false)
-	private BoardDaoImpl boardDaoImpl;
-	
+	@Autowired
+	private BoardDao boardDao;
+
 	@Override
-	public void register(BoardVo boardVo) {
-		boardDaoImpl.insert(boardVo);
+	public void register(ArticleVo articleVo) {
+		boardDao.insert(articleVo);
 	}
 
 	@Override
-	public void modify(BoardVo boardVo)  {
-		boardDaoImpl.update(boardVo);
+	public void modify(ArticleVo articleVo) {
+		boardDao.update(articleVo);
 	}
 
 	@Override
-	public void remove(int boardId) {
-		boardDaoImpl.delete(boardId);
+	public void remove(int articleId) {
+		boardDao.delete(articleId);
 	}
 
 	@Override
-	public BoardVo get(int boardId)  {
-		System.out.println("board service get " + boardId);
-		return  boardDaoImpl.select(boardId);
+	public ArticleVo get(int articleId) {
+		return boardDao.select(articleId);
 	}
 
 	@Override
-	public List<BoardVo> get(){
-		System.out.println("board service get all");
-		return boardDaoImpl.select();
+	public List<ArticleVo> get() {
+		return boardDao.select();
 	}
 
 }

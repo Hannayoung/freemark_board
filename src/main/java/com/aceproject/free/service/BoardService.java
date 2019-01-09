@@ -2,13 +2,17 @@ package com.aceproject.free.service;
 
 import java.util.List;
 
-import com.aceproject.free.model.BoardVo;
+import com.aceproject.free.model.ArticleVo;
 
 public interface BoardService {
 
-	public void register(BoardVo boardVo);
-	public void modify(BoardVo boardVo);
-	public void remove(int boardId);
-	public BoardVo get(int boardId);
-	public List<BoardVo> get();
+	void register(ArticleVo articleVo);
+
+	void modify(ArticleVo articleVo);
+
+	void remove(int articleId);
+
+	ArticleVo get(int articleId);
+
+	List<ArticleVo> get();
 }

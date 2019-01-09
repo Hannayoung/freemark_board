@@ -6,10 +6,13 @@ import com.aceproject.free.model.CusVo;
 
 public interface CusService {
 
-	public void register(CusVo cusVo);
-	public void modify(CusVo cusVo) ;
-	public void remove(int cusId) ;
-	public CusVo get(int cusId) ;
-	public CusVo getBoardList(int cusId) ;
-	public List<CusVo> get() ;
+	void register(CusVo cusVo);
+
+	void modify(CusVo cusVo);
+
+	void remove(int cusId);
+
+	CusVo get(String email);
+
+	List<CusVo> get();
 }

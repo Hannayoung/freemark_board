@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.aceproject.free.model.BoardVo" alias="board"/>
+		<typeAlias type="com.aceproject.free.model.ArticleVo" alias="article"/>
 		<typeAlias type="com.aceproject.free.model.CusVo" alias="customer"/>
 	</typeAliases>
 	
